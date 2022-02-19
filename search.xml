@@ -1,22 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Hello World</title>
-    <url>/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="quick-start">Quick Start</h2>
-<h3 id="create-a-new-post">Create a new post</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="run-server">Run server</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="generate-static-files">Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="deploy-to-remote-sites">Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+    <title>题解 P8143 【[JRKSJ R4] Stirling】</title>
+    <url>/Stirling/</url>
+    <content><![CDATA[<p><strong><a href="https://www.luogu.com.cn/blog/ling-XAIqwq/solution-p8143"><s>无耻地推销个人博客 qwq</s></a></strong></p>
+<p><strong><a href="https://www.luogu.com.cn/problem/P8143">题目传送门</a></strong></p>
+<hr>
+<h2 id="题意">题意</h2>
+<p>对于给定的 $ n $，求有多少个 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>1</mn><mo separator="true">,</mo><mi>n</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[1,n]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">n</span><span class="mclose">]</span></span></span></span> 的排列满足其生成图恰有偶数个环（自环同样计入）。</p>
+<p>其中一个排列生成图指的是对于每个该排列中的第 $ i $ 个元素（令其为 $ p_i $），连接一条从 $ i $ 到 $ p_i $ 的无向边，最后得到的无向图为原排列的生成图。</p>
+<span id="more"></span>
+<h2 id="解法">解法</h2>
+<p>作为一道公开赛的T1，由经验出发其十有八九是一道结论题（大雾</p>
+<p>因此，我们从 $ n = 2 $ 开始手玩几项，发现其对应关系如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">$ n $</th>
+<th style="text-align:center">$ 2 $</th>
+<th style="text-align:center">$ 3 $</th>
+<th style="text-align:center">$ 4 $</th>
+<th style="text-align:center">$ 5 $</th>
+<th style="text-align:center">$ 6 $</th>
+<th style="text-align:center">$ 7 $</th>
+<th style="text-align:center">$ 8 $</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">$ ans $</td>
+<td style="text-align:center">$ 1 $</td>
+<td style="text-align:center">$ 3 $</td>
+<td style="text-align:center">$ 12 $</td>
+<td style="text-align:center">$ 60 $</td>
+<td style="text-align:center">$ 360 $</td>
+<td style="text-align:center">$ 2520 $</td>
+<td style="text-align:center">$ 20160 $</td>
+</tr>
+</tbody>
+</table>
+<p><s>当然手玩一般到 $ n = 5$ 就是极限了</s></p>
+<p>简单分析一下，可以看出 $ ans = \frac{n!}{2} $。</p>
+<p>当然，仅仅靠猜是不够的，所以我们接下来通过递推来对其给出一个严格的证明：</p>
+<blockquote>
+<p>为了方便表示，不妨令 $ p_{i} \rightarrow i $ 的映射为 $ h(x) $，并令 $ f(n), g(n) $ 分别为对于 $ [1,n] $ 的排列 $ p $，其环个数为偶数和奇数的生成图个数，</p>
+<p>则易得 $ f(2) = g(2) = 1 $（分别是 $ {1, 2} $ 与 $ {2, 1} $），</p>
+<p>且有 $ f(n) + g(n) = n! $（总生成图个数等于排列个数）。</p>
+<p>现在假设对于 $ \forall x &lt; n $，其对应的 $ f(x), g(x) $ 皆已求出，考虑当 $ x = n $ 时 $ f(x), g(x) $ 的值。<br>
+此时，对于新加入的 $ p_{n} $，有如下两种情况：</p>
+<ol>
+<li>$ p_{n} = n $</li>
+</ol>
+<blockquote>
+<p>此时相当于在原来的情况下增加了一个自环，故环的个数加一，奇偶性发生变化，原先所有环的个数为奇数的情况变为环的个数为偶数，偶数变奇数，</p>
+<p>故有 $ \left{\begin{matrix}f(x) = g(x - 1)\ g(x) = f(x - 1)\end{matrix}\right. $</p>
+</blockquote>
+<ol start="2">
+<li>$ p_{n} \neq n $</li>
+</ol>
+<blockquote>
+<p>不妨令 $ p_{n} = \alpha $ ，则实际上发生的操作为 $ p_{n} = \alpha, p_{h(\alpha)} = n $ （实际上可以类比为链表的插入），此时相当于在原来的情况下将其中一个环的规模扩大，故环的个数不变，奇偶性不发生变化，原先所有环的个数为奇数的情况仍为奇数，偶数仍为偶数，又因为对于 先前 $ x = n - 1 $ 的每一种情况而言，$ p_{n} = 1, 2, 3, \cdots, n - 1 $ 都是满足假设的，</p>
+<p>故有 $ \left{\begin{matrix}f(x) = (x - 1)f(x - 1)\ g(x) = (x - 1)g(x - 1)\end{matrix}\right. $</p>
+</blockquote>
+<p>故由加法原理得到最终的递推公式为 $ \left{\begin{matrix}f(x) = g(x) + (x - 1)f(x - 1)\ g(x) = f(x) + (x - 1)g(x - 1)\end{matrix}\right. $</p>
+<p>结合最初的两个式子，最终可以推出通项为 $ f(x) = g(x) = \frac{x!}{2} $。</p>
+</blockquote>
+<p><s>所以题目背景中给出的公式在题目中完全用不上（大雾</s></p>
+<p>不过需要注意的是，在求余这一操作下，除法应转化为乘上对应的乘法逆元，<s>当然你也可以直接上下把2约掉，这样更方便，就像我代码里一样</s>。</p>
+<p>最后代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> mod 998244353</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="type">unsigned</span> <span class="type">long</span> <span class="type">long</span> n, ans = <span class="number">1</span>;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">unsigned</span> <span class="type">long</span> <span class="type">long</span> i = <span class="number">1</span>; i &lt;= n; ++i) <span class="keyword">if</span>(i != <span class="number">2</span>) ans = (ans % mod) * (i % mod);</span><br><span class="line">    cout&lt;&lt; ans % mod &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>至此，愉快 AC，完结撒花 0v0</p>
 ]]></content>
+      <tags>
+        <tag>题解</tag>
+      </tags>
   </entry>
 </search>
