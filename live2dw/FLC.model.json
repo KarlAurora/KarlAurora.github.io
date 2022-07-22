@@ -1,0 +1,17 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "FLC.moc",
+		"Textures": [
+			"FLC.8192/texture_00.png"
+		],
+		"DisplayInfo": "FLC.cdi.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		}
+	]
+}
